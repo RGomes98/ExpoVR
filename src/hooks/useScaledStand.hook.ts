@@ -1,4 +1,4 @@
-import type { Dispatch, RefObject, SetStateAction } from 'react';
+import type { Dispatch, SetStateAction } from 'react';
 import { useEffect, useRef, useState } from 'react';
 
 import type { Stand } from '@/constants/stands.const';
@@ -15,11 +15,15 @@ type ComputeStandLayoutParams = {
 };
 
 type UpdateImageSizeParams = {
-  imageRef: RefObject<HTMLImageElement | null>;
+  imageElement: HTMLImageElement;
   setImageSize: Dispatch<SetStateAction<ImageSize>>;
 };
 
 function computeStandLayout({ stand, imageSize }: ComputeStandLayoutParams) {
+  if (imageSize.width === 0 || imageSize.height === 0) {
+    return { position: 'absolute', display: 'none' } as const;
+  }
+
   const widthScale = imageSize.width / originalImageSize.width;
   const heightScale = imageSize.height / originalImageSize.height;
 
@@ -32,14 +36,8 @@ function computeStandLayout({ stand, imageSize }: ComputeStandLayoutParams) {
   };
 }
 
-function updateImageSize({ imageRef, setImageSize }: UpdateImageSizeParams) {
-  const imageElement = imageRef.current;
-  if (!imageElement) return;
-
-  setImageSize({
-    width: imageElement.clientWidth,
-    height: imageElement.clientHeight,
-  });
+function updateImageSize({ imageElement, setImageSize }: UpdateImageSizeParams) {
+  setImageSize({ width: imageElement.clientWidth, height: imageElement.clientHeight });
 }
 
 export function useScaledStand() {
@@ -47,12 +45,19 @@ export function useScaledStand() {
   const imageRef = useRef<HTMLImageElement>(null);
 
   useEffect(() => {
-    updateImageSize({ imageRef, setImageSize });
+    const imageElement = imageRef.current;
+    if (!imageElement) return;
 
+    const handleUpdate = () => updateImageSize({ imageElement, setImageSize });
     const controller = new AbortController();
     const { signal } = controller;
 
-    window.addEventListener('resize', () => updateImageSize({ imageRef, setImageSize }), { signal });
+    if (imageElement.complete) {
+      handleUpdate();
+    }
+
+    imageElement.addEventListener('load', handleUpdate, { signal });
+    window.addEventListener('resize', handleUpdate, { signal });
     return () => controller.abort();
   }, []);
 
