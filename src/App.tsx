@@ -12,7 +12,7 @@ export default function App() {
   const { imageRef, computeStandSize } = useScaledStand();
 
   return (
-    <div className='grid h-screen grid-cols-[1.8fr_6fr]'>
+    <div className='grid h-screen grid-cols-[1.8fr_auto]'>
       {/* Sidebar */}
       <h1>Sidebar</h1>
 

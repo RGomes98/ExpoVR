@@ -136,8 +136,8 @@ const STANDS = [
     description: 'Detalhes do estande B...',
     position: {
       topPx: '628',
-      leftPx: '366',
-      widthPx: '179',
+      leftPx: '365',
+      widthPx: '180',
       heightPx: '118.8',
     },
   },
@@ -156,8 +156,8 @@ const STANDS = [
     description: 'Detalhes do estande B...',
     position: {
       topPx: '689',
-      leftPx: '728.8',
-      widthPx: '118',
+      leftPx: '728',
+      widthPx: '120',
       heightPx: '58',
     },
   },
@@ -307,7 +307,7 @@ const STANDS = [
     position: {
       topPx: '446',
       leftPx: '1270.8',
-      widthPx: '119',
+      widthPx: '120',
       heightPx: '57',
     },
   },
@@ -377,7 +377,7 @@ const STANDS = [
     position: {
       topPx: '170.5',
       leftPx: '1876',
-      widthPx: '172',
+      widthPx: '172.5',
       heightPx: '194',
     },
   },
@@ -387,7 +387,7 @@ const STANDS = [
     position: {
       topPx: '170.5',
       leftPx: '2051',
-      widthPx: '114',
+      widthPx: '115',
       heightPx: '577',
     },
   },
