@@ -1,87 +1,99 @@
 import { TransformWrapper, TransformComponent } from 'react-zoom-pan-pinch';
 import { Fragment, useState } from 'react';
 
-import type { Stand } from './constants/stands.const';
-import { useScaledStand } from './hooks/useScaledStand.hook';
-import { STANDS, ZOOM_SCALE } from './constants/stands.const';
+import type { Category } from '@/constants/sidebar.const';
+import type { Stand } from '@/constants/stands.const';
+import { Dialog } from '@/components/Dialog';
+import { SidebarInset, SidebarProvider, SidebarTrigger } from '@/components/ui/sidebar';
+import { Separator } from '@/components/ui/separator';
+import { Controls } from '@/components/Controls';
+import { Stands } from '@/components/Stands';
+import { Sidebar } from '@/components/Sidebar';
+import { Image } from '@/components/Image';
+import { useScaledStand } from '@/hooks/useScaledStand.hook';
+import { useWindowSize } from '@/hooks/useWindowSize.hook';
+import { getInitialScale } from '@/utils/window.util';
 
-import pavilion from '@/assets/images/pavilion-stands.jpg';
+import {
+  Breadcrumb,
+  BreadcrumbItem,
+  BreadcrumbLink,
+  BreadcrumbList,
+  BreadcrumbPage,
+  BreadcrumbSeparator,
+} from '@/components/ui/breadcrumb';
 
 export default function App() {
+  const [activeCategory, setActiveCategory] = useState<Category | null>(null);
   const [selectedStand, setSelectedStand] = useState<Stand | null>(null);
+  const [isDialogActive, setIsDialogActive] = useState(false);
+
   const { imageRef, computeStandSize } = useScaledStand();
+  const { width } = useWindowSize();
 
   return (
-    <div className='grid h-screen grid-cols-[1.8fr_auto]'>
-      {/* Sidebar */}
-      <h1>Sidebar</h1>
-
-      <TransformWrapper>
-        {({ zoomIn, zoomOut, resetTransform, zoomToElement }) => (
-          <Fragment>
-            {/* Image */}
-            <TransformComponent
-              wrapperStyle={{ height: '100%', width: '100%' }}
-              contentStyle={{ height: '100%', width: '100%' }}
+    <Fragment>
+      <TransformWrapper initialScale={getInitialScale(width)}>
+        {({ resetTransform }) => {
+          return (
+            <SidebarProvider
+              className='h-screen'
+              style={{ '--sidebar-width': '450px' } as React.CSSProperties}
             >
-              <div className='relative inline-block h-full w-full'>
-                <img
-                  ref={imageRef}
-                  src={pavilion}
-                  alt='pavilion-map'
-                  className='block max-h-full max-w-full object-contain'
-                />
-
-                {/* Stands */}
-                {STANDS.map((stand) => (
-                  <div
-                    key={stand.id}
-                    id={stand.id}
-                    style={computeStandSize(stand)}
-                    className='absolute cursor-pointer border-2 border-red-500/50 bg-red-500/20 hover:bg-red-500/40'
-                    onMouseLeave={() => setSelectedStand(null)}
-                    onMouseEnter={() => setSelectedStand(stand)}
-                    onClick={() => {
-                      setSelectedStand(stand);
-                      zoomToElement(stand.id, ZOOM_SCALE);
-                    }}
+              <Sidebar
+                standState={{ selectedStand, setSelectedStand }}
+                categoryState={{ activeCategory, setActiveCategory }}
+              />
+              <SidebarInset className='grid h-dvh grid-rows-[auto_1fr]'>
+                <header className='bg-background sticky top-0 flex shrink-0 items-center gap-2 border-b p-4'>
+                  <SidebarTrigger className='-ml-1' />
+                  <Separator orientation='vertical' className='mr-2 data-[orientation=vertical]:h-4' />
+                  <Breadcrumb>
+                    <BreadcrumbList>
+                      <BreadcrumbItem>
+                        <BreadcrumbLink
+                          href='#'
+                          onClick={() => {
+                            if (!activeCategory) return;
+                            resetTransform();
+                            setSelectedStand(null);
+                            setActiveCategory(null);
+                          }}
+                        >
+                          Categoria
+                        </BreadcrumbLink>
+                      </BreadcrumbItem>
+                      <BreadcrumbSeparator />
+                      <BreadcrumbItem>
+                        <BreadcrumbPage>{activeCategory ? activeCategory.title : 'Todos'}</BreadcrumbPage>
+                      </BreadcrumbItem>
+                    </BreadcrumbList>
+                  </Breadcrumb>
+                </header>
+                <TransformComponent
+                  wrapperStyle={{ width: '100%', height: '100%' }}
+                  contentClass='hover:cursor-grab active:cursor-grabbing'
+                >
+                  <Image imageRef={imageRef} />
+                  <Stands
+                    computeStandSize={computeStandSize}
+                    standState={{ selectedStand, setSelectedStand }}
+                    dialogState={{ isDialogActive, setIsDialogActive }}
+                    categoryState={{ activeCategory, setActiveCategory }}
                   />
-                ))}
-              </div>
-            </TransformComponent>
-
-            {/* Image Controls */}
-            <div className='fixed top-5 right-5 z-[1000] flex flex-col space-y-2'>
-              <button
-                onClick={() => zoomIn()}
-                className='rounded bg-blue-500 px-3 py-1 text-white hover:bg-blue-600'
-              >
-                Zoom +
-              </button>
-              <button
-                onClick={() => zoomOut()}
-                className='rounded bg-blue-500 px-3 py-1 text-white hover:bg-blue-600'
-              >
-                Zoom -
-              </button>
-              <button
-                onClick={() => resetTransform()}
-                className='rounded bg-gray-500 px-3 py-1 text-white hover:bg-gray-600'
-              >
-                Reset
-              </button>
-            </div>
-          </Fragment>
-        )}
+                </TransformComponent>
+                <Controls />
+              </SidebarInset>
+            </SidebarProvider>
+          );
+        }}
       </TransformWrapper>
-
-      {/* Stand Popup */}
-      {selectedStand && (
-        <div className='fixed bottom-5 left-5 z-[999] border border-gray-300 bg-white p-3 shadow-md'>
-          <h4 className='font-semibold'>{selectedStand.name}</h4>
-          <p>{selectedStand.description}</p>
-        </div>
+      {isDialogActive && (
+        <Dialog
+          standState={{ selectedStand, setSelectedStand }}
+          dialogState={{ isDialogActive, setIsDialogActive }}
+        />
       )}
-    </div>
+    </Fragment>
   );
 }
