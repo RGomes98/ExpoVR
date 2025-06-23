@@ -2,7 +2,7 @@ import type { Dispatch, SetStateAction } from 'react';
 import { useEffect, useRef, useState } from 'react';
 
 import type { Stand } from '@/constants/stands.const';
-import { originalImageSize } from '@/constants/image.const';
+import { ORIGINAL_IMAGE_SIZE } from '@/constants/image.const';
 
 type ImageSize = {
   width: number;
@@ -24,8 +24,8 @@ function computeStandLayout({ stand, imageSize }: ComputeStandLayoutParams) {
     return { position: 'absolute', display: 'none' } as const;
   }
 
-  const widthScale = imageSize.width / originalImageSize.width;
-  const heightScale = imageSize.height / originalImageSize.height;
+  const widthScale = imageSize.width / ORIGINAL_IMAGE_SIZE.width;
+  const heightScale = imageSize.height / ORIGINAL_IMAGE_SIZE.height;
 
   return {
     position: 'absolute' as const,
@@ -49,6 +49,7 @@ export function useScaledStand() {
     if (!imageElement) return;
 
     const handleUpdate = () => updateImageSize({ imageElement, setImageSize });
+    const resizeObserver = new ResizeObserver(handleUpdate);
     const controller = new AbortController();
     const { signal } = controller;
 
@@ -58,7 +59,11 @@ export function useScaledStand() {
 
     imageElement.addEventListener('load', handleUpdate, { signal });
     window.addEventListener('resize', handleUpdate, { signal });
-    return () => controller.abort();
+    resizeObserver.observe(imageElement);
+    return () => {
+      resizeObserver.disconnect();
+      controller.abort();
+    };
   }, []);
 
   return {
