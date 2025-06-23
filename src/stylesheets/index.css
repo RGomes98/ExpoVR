@@ -118,3 +118,9 @@
     @apply bg-background text-foreground;
   }
 }
+
+@layer components {
+  .tooltip-arrow polygon {
+    fill: var(--color-secondary);
+  }
+}
