@@ -120,7 +120,16 @@
 }
 
 @layer components {
+  [data-slot='tooltip-content'] > span:first-of-type {
+    color: inherit;
+  }
+
+  .tooltip-arrow {
+    fill: currentColor;
+    background-color: currentColor;
+  }
+
   .tooltip-arrow polygon {
-    fill: var(--color-secondary);
+    fill: currentColor;
   }
 }

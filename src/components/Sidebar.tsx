@@ -10,6 +10,7 @@ import { STANDS } from '@/constants/stands.const';
 import { useWindowSize } from '@/hooks/useWindowSize.hook';
 import { getLogoImagesPath } from '@/utils/file.util';
 import { getZoomScale } from '@/utils/window.util';
+import { useIsMobile } from '@/hooks/useIsMobile.hook';
 
 import {
   Sidebar as SidebarUI,
@@ -36,7 +37,9 @@ export function Sidebar({ categoryState, standState, ...props }: SidebarProps) {
   const [activeSearch, setActiveSearch] = useState('');
   const { zoomToElement, resetTransform } = useControls();
   const { setOpen, setOpenMobile } = useSidebar();
+
   const dimensions = useWindowSize();
+  const isMobile = useIsMobile();
 
   const filteredStands = STANDS.filter((stand) => {
     const hasActiveSearch = Boolean(activeSearch.trim());
@@ -78,6 +81,7 @@ export function Sidebar({ categoryState, standState, ...props }: SidebarProps) {
                   <SidebarMenuItem key={item.title}>
                     <SidebarMenuButton
                       className='cursor-pointer px-2.5 md:px-2'
+                      tooltip={{ children: item.title, hidden: isMobile }}
                       isActive={categoryState.activeCategory?.title === item.title}
                       onClick={() => {
                         setOpen(true);

@@ -50,18 +50,19 @@ export function Stands({ standState, categoryState, dialogState, computeStandSiz
                 <MapPin className='z-50 size-2.5 transition-all duration-200 ease-out max-sm:size-1' />
                 <span
                   className={`absolute inset-0 inline-flex h-full w-full animate-ping rounded-full ${isStandSelected ? 'bg-yellow-300' : 'bg-black'} opacity-75`}
-                ></span>
+                />
               </div>
             </TooltipTrigger>
             <TooltipContent
               side='top'
               sideOffset={8}
-              className='zoom-in-95 bg-secondary flex max-w-[220px] flex-col gap-2 rounded-md px-3 py-2 text-center shadow-md transition-all duration-150 ease-out sm:text-sm'
+              tooltipColor='secondary'
+              className='zoom-in-95 bg-secondary flex max-w-[220px] flex-col gap-2 rounded-md p-2 text-center shadow-md transition-all duration-150 ease-out sm:text-sm'
             >
-              <div className='flex items-center justify-center gap-2'>
+              <div className='flex h-10 items-center justify-center gap-2'>
                 {stand.logoFilename && (
                   <img
-                    className='size-10 rounded-md object-contain shadow'
+                    className='size-10 h-full rounded-md object-contain shadow'
                     src={getLogoImagesPath(stand.logoFilename)}
                     alt={stand.name}
                   />
