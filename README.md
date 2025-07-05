@@ -46,6 +46,4 @@ A interface foi projetada para funcionar bem tanto em dispositivos móveis quant
 
 Este projeto foi desenvolvido exclusivamente pelo curso de **Sistemas de Informação**, com fins acadêmicos e para suporte ao evento **ExpoVR 2025**. Não está vinculado a projetos de extensão, órgãos de fomento ou entidades externas. Representa uma solução prática voltada à aplicação de conhecimentos técnicos em um desafio real.
 
----
-
 [1]: https://expovr.com.br/ 'ExpoVR 2025 | A maior experiência multicultural do Sul Fluminense...'
