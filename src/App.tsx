@@ -88,12 +88,10 @@ export default function App() {
           );
         }}
       </TransformWrapper>
-      {isDialogActive && (
-        <Dialog
-          standState={{ selectedStand, setSelectedStand }}
-          dialogState={{ isDialogActive, setIsDialogActive }}
-        />
-      )}
+      <Dialog
+        standState={{ selectedStand, setSelectedStand }}
+        dialogState={{ isDialogActive, setIsDialogActive }}
+      />
     </Fragment>
   );
 }
