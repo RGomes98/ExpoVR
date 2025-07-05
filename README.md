@@ -1,54 +1,51 @@
-# React + TypeScript + Vite
+## ExpoVR – Work in Progress (WIP)
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Este repositório contém o código-fonte do **Mapa Interativo da ExpoVR**, uma aplicação web desenvolvida pelo curso de **Sistemas de Informação** do **Centro Universitário de Volta Redonda – Fundação Oswaldo Aranha**, com o objetivo de proporcionar uma experiência imersiva e intuitiva de navegação pelo pavilhão de expositores da ExpoVR.
 
-Currently, two official plugins are available:
+### 🗓 Sobre o Evento
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+A **ExpoVR 2025** será realizada de **1 a 3 de agosto de 2025**, na tradicional **Ilha São João**, em **Volta Redonda – RJ**, com entrada gratuita. Focada na cultura, negócios e tecnologia, o evento promete ser **a maior experiência multicultural do Sul Fluminense** ([expovr.com.br][1]).
 
-## Expanding the ESLint configuration
+### 📈 Impacto Esperado
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+- **Mais de 50 mil visitantes** durante os três dias
+- Presença de **120 estandes**, promovendo uma rica diversidade de marcas e empresas
+- Estímulo à economia local, com **movimentação estimada em R\$ 20 milhões**
 
-```js
-export default tseslint.config({
-  extends: [
-    // Remove ...tseslint.configs.recommended and replace with this
-    ...tseslint.configs.recommendedTypeChecked,
-    // Alternatively, use this for stricter rules
-    ...tseslint.configs.strictTypeChecked,
-    // Optionally, add this for stylistic rules
-    ...tseslint.configs.stylisticTypeChecked,
-  ],
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
-```
+### Descrição do Projeto
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+O **Mapa Interativo da ExpoVR** é uma aplicação web que permite que os visitantes explorem, visualizem e obtenham informações detalhadas sobre os estandes presentes no pavilhão da exposição. O sistema utiliza uma imagem do layout oficial da feira, sobre a qual os estandes são posicionados interativamente, com funcionalidades de zoom, busca, filtro e exibição de detalhes via modal.
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+A interface foi projetada para funcionar bem tanto em dispositivos móveis quanto em desktops, garantindo uma navegação acessível, fluida e moderna.
 
-export default tseslint.config({
-  plugins: {
-    // Add the react-x and react-dom plugins
-    'react-x': reactX,
-    'react-dom': reactDom,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended typescript rules
-    ...reactX.configs['recommended-typescript'].rules,
-    ...reactDom.configs.recommended.rules,
-  },
-})
-```
+### 🎯 Funcionalidades Principais
+
+- **Zoom & Pan**: Navegação fluida sobre o mapa do evento
+- **Filtro por Categoria**: Exibição segmentada conforme o setor de interesse
+- **Busca por Nome**: Localização imediata de expositores
+- **Detalhes de Estande**: Exibição de descrição, logotipo e botão “Saiba mais”
+- **Design Responsivo**: Compatível com todos os tamanhos de tela
+
+---
+
+## 🛠 Tecnologias Utilizadas
+
+- **React.js**: Biblioteca JavaScript para construção da interface
+- **TypeScript**: Superset de JavaScript com tipagem estática
+- **Tailwind CSS**: Utilitários para estilização rápida e responsiva
+- **shadcn/ui**: Conjunto moderno de componentes UI, construído sobre Radix e Tailwind, com foco em acessibilidade e design consistente
+- **Radix UI**: Primitivas acessíveis para construção de componentes robustos
+- **Lucide React**: Conjunto de ícones otimizados para React
+- **react-zoom-pan-pinch**: Biblioteca para manipulação de zoom e pan
+- **ESLint + Prettier**: Padrões e formatação de código
+- **Vite**: Ferramenta moderna de bundling e dev-server para projetos frontend
+
+---
+
+## 🤝 Considerações Finais
+
+Este projeto foi desenvolvido exclusivamente pelo curso de **Sistemas de Informação**, com fins acadêmicos e para suporte ao evento **ExpoVR 2025**. Não está vinculado a projetos de extensão, órgãos de fomento ou entidades externas. Representa uma solução prática voltada à aplicação de conhecimentos técnicos em um desafio real.
+
+---
+
+[1]: https://expovr.com.br/ 'ExpoVR 2025 | A maior experiência multicultural do Sul Fluminense...'
