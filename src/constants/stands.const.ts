@@ -1,3 +1,5 @@
+// UPDATE
+
 export type Stand = (typeof STANDS)[number];
 
 export type StandCategory =

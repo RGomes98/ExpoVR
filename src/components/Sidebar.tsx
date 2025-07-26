@@ -1,6 +1,6 @@
 import type { ComponentProps, Dispatch, SetStateAction } from 'react';
 import { useControls } from 'react-zoom-pan-pinch';
-import { Command, SearchX } from 'lucide-react';
+import { SearchX } from 'lucide-react';
 import { useState } from 'react';
 
 import type { Stand } from '@/constants/stands.const';
@@ -11,6 +11,8 @@ import { useWindowSize } from '@/hooks/useWindowSize.hook';
 import { getLogoImagesPath } from '@/utils/file.util';
 import { getZoomScale } from '@/utils/window.util';
 import { useIsMobile } from '@/hooks/useIsMobile.hook';
+
+import logo from '@/assets/expovr-logo.png';
 
 import {
   Sidebar as SidebarUI,
@@ -56,13 +58,13 @@ export function Sidebar({ categoryState, standState, ...props }: SidebarProps) {
   return (
     <SidebarUI collapsible='icon' className='overflow-hidden *:data-[sidebar=sidebar]:flex-row' {...props}>
       <SidebarUI collapsible='none' className='w-[calc(var(--sidebar-width-icon)+1px)]! border-r'>
-        <SidebarHeader>
+        <SidebarHeader className='border-b'>
           <SidebarMenu>
             <SidebarMenuItem>
               <SidebarMenuButton size='lg' asChild className='md:h-8 md:p-0'>
                 <a href='#'>
-                  <div className='bg-sidebar-primary text-sidebar-primary-foreground flex aspect-square size-8 items-center justify-center rounded-lg'>
-                    <Command className='size-4' />
+                  <div className='bg-sidebar-primary-foreground text-sidebar-primary-foreground flex aspect-square size-8 items-center justify-center rounded-lg'>
+                    <img src={logo} className='object-cover' alt='expovr-logo' />
                   </div>
                   <div className='grid flex-1 text-left text-sm leading-tight'>
                     <span className='truncate font-medium'>ExpoVR</span>
@@ -74,7 +76,7 @@ export function Sidebar({ categoryState, standState, ...props }: SidebarProps) {
           </SidebarMenu>
         </SidebarHeader>
         <SidebarContent>
-          <SidebarGroup>
+          <SidebarGroup className='border-b'>
             <SidebarGroupContent className='px-1.5 md:px-0'>
               <SidebarMenu>
                 {CATEGORIES.map((item) => (
@@ -104,7 +106,9 @@ export function Sidebar({ categoryState, standState, ...props }: SidebarProps) {
       <SidebarUI collapsible='none' className='hidden flex-1 md:flex'>
         <SidebarHeader className='gap-3.5 border-b p-4'>
           <div className='flex w-full items-center justify-between'>
-            <div className='text-foreground text-base font-medium'>Pavilhão de Negócios e Exposição</div>
+            <div className='text-foreground text-base font-medium'>
+              ExpoVR 2025 - Pavilhão de Negócios e Exposição
+            </div>
           </div>
           <SidebarInput
             value={activeSearch}
