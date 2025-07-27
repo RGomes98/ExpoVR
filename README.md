@@ -1,4 +1,4 @@
-## ExpoVR – Work in Progress (WIP)
+## ExpoVR
 
 Este repositório contém o código-fonte do **Mapa Interativo da ExpoVR**, uma aplicação web desenvolvida pelo curso de **Sistemas de Informação** do **Centro Universitário de Volta Redonda – Fundação Oswaldo Aranha**, com o objetivo de proporcionar uma experiência imersiva e intuitiva de navegação pelo pavilhão de expositores da ExpoVR.
 
