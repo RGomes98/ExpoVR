@@ -52,7 +52,7 @@ export default function App() {
                     <BreadcrumbList>
                       <BreadcrumbItem>
                         <BreadcrumbLink
-                          href='#'
+                          className='cursor-pointer'
                           onClick={() => {
                             if (!activeCategory) return;
                             resetTransform();

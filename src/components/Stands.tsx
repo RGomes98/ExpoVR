@@ -67,7 +67,7 @@ export function Stands({ standState, categoryState, dialogState, computeStandSiz
                     alt={stand.name}
                   />
                 )}
-                <span className='text-foreground text-base font-semibold'>{stand.name}</span>
+                <span className='text-foreground px-2 text-base font-semibold'>{stand.name}</span>
               </div>
               <Button
                 className='bg-primary hover:bg-primary/90 z-50 cursor-pointer rounded-md px-3 py-1 text-xs font-semibold text-white transition-all'

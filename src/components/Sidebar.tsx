@@ -12,7 +12,7 @@ import { getLogoImagesPath } from '@/utils/file.util';
 import { getZoomScale } from '@/utils/window.util';
 import { useIsMobile } from '@/hooks/useIsMobile.hook';
 
-import logo from '@/assets/expovr-logo.png';
+import logo from '@/assets/logos/expovr-logo.png';
 
 import {
   Sidebar as SidebarUI,
@@ -62,7 +62,7 @@ export function Sidebar({ categoryState, standState, ...props }: SidebarProps) {
           <SidebarMenu>
             <SidebarMenuItem>
               <SidebarMenuButton size='lg' asChild className='md:h-8 md:p-0'>
-                <a href='#'>
+                <div>
                   <div className='bg-sidebar-primary-foreground text-sidebar-primary-foreground flex aspect-square size-8 items-center justify-center rounded-lg'>
                     <img src={logo} className='object-cover' alt='expovr-logo' />
                   </div>
@@ -70,7 +70,7 @@ export function Sidebar({ categoryState, standState, ...props }: SidebarProps) {
                     <span className='truncate font-medium'>ExpoVR</span>
                     <span className='truncate text-xs'>Pavilhão de Negócios e Exposição </span>
                   </div>
-                </a>
+                </div>
               </SidebarMenuButton>
             </SidebarMenuItem>
           </SidebarMenu>
@@ -122,14 +122,13 @@ export function Sidebar({ categoryState, standState, ...props }: SidebarProps) {
               {hasStandsToShow ? (
                 filteredStands.map((stand) => {
                   return (
-                    <a
-                      href='#'
+                    <button
                       key={stand.id}
                       onClick={() => {
                         zoomToElement(stand.id, getZoomScale(dimensions.width));
                         standState.setSelectedStand(stand);
                       }}
-                      className='hover:bg-sidebar-accent hover:text-sidebar-accent-foreground flex w-full items-start gap-4 border-b p-4 text-sm leading-tight whitespace-nowrap last:border-b-0'
+                      className='hover:bg-sidebar-accent hover:text-sidebar-accent-foreground flex w-full cursor-pointer items-start gap-4 border-b p-4 text-left text-sm leading-tight whitespace-nowrap last:border-b-0'
                     >
                       <div className='flex flex-1 flex-col items-start gap-1'>
                         <span className='font-semibold'>{stand.name}</span>
@@ -145,7 +144,7 @@ export function Sidebar({ categoryState, standState, ...props }: SidebarProps) {
                           className='my-auto h-12 w-12 shrink-0 object-contain'
                         />
                       )}
-                    </a>
+                    </button>
                   );
                 })
               ) : (
