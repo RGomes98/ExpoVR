@@ -21,6 +21,18 @@ export type Stand = {
   position: { topPx: string; leftPx: string; widthPx: string; heightPx: string };
 };
 
+export const MAP: Stand[] = [
+  {
+    id: 'pavilion',
+    logoFilename: 'expovr-logo.png',
+    name: 'Pavilhão ExpoVR 2025',
+    category: 'Outros' as const,
+    description:
+      'Espaço dedicado à promoção de negócios, inovação e networking, reunindo empresas, startups e instituições para exposição e troca de experiências.',
+    position: { topPx: '1608', leftPx: '1519.5', widthPx: '650', heightPx: '400' },
+  },
+];
+
 export const STANDS: Stand[] = [
   {
     id: 'byd',

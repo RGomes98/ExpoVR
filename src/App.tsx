@@ -27,6 +27,7 @@ export default function App() {
   const [activeCategory, setActiveCategory] = useState<Category | null>(null);
   const [selectedStand, setSelectedStand] = useState<Stand | null>(null);
   const [isDialogActive, setIsDialogActive] = useState(false);
+  const [isFullMapView, setIsFullMapView] = useState(true);
 
   const { imageRef, computeStandSize } = useScaledStand();
   const { width } = useWindowSize();
@@ -41,6 +42,7 @@ export default function App() {
               style={{ '--sidebar-width': '450px' } as React.CSSProperties}
             >
               <Sidebar
+                isFullMapView={isFullMapView}
                 standState={{ selectedStand, setSelectedStand }}
                 categoryState={{ activeCategory, setActiveCategory }}
               />
@@ -74,12 +76,13 @@ export default function App() {
                   wrapperStyle={{ width: '100%', height: '100%' }}
                   contentClass='hover:cursor-grab active:cursor-grabbing'
                 >
-                  <Image imageRef={imageRef} />
+                  <Image isFullMapView={isFullMapView} imageRef={imageRef} />
                   <Stands
                     computeStandSize={computeStandSize}
                     standState={{ selectedStand, setSelectedStand }}
                     dialogState={{ isDialogActive, setIsDialogActive }}
                     categoryState={{ activeCategory, setActiveCategory }}
+                    fullViewMapState={{ isFullMapView, setIsFullMapView }}
                   />
                 </TransformComponent>
                 <Controls />

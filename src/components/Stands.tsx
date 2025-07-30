@@ -4,7 +4,7 @@ import { MapPin } from 'lucide-react';
 
 import type { Stand } from '@/constants/stands.const';
 import type { Category } from '@/constants/sidebar.const';
-import { STANDS } from '@/constants/stands.const';
+import { MAP, STANDS } from '@/constants/stands.const';
 import { useWindowSize } from '@/hooks/useWindowSize.hook';
 import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip';
 import { Button } from '@/components/ui/button';
@@ -14,6 +14,7 @@ import { getZoomScale } from '@/utils/window.util';
 
 type StandProps = {
   computeStandSize: (stand: Stand) => React.CSSProperties;
+  fullViewMapState: { isFullMapView: boolean; setIsFullMapView: Dispatch<SetStateAction<boolean>> };
   dialogState: { isDialogActive: boolean; setIsDialogActive: Dispatch<SetStateAction<boolean>> };
   standState: { selectedStand: Stand | null; setSelectedStand: Dispatch<SetStateAction<Stand | null>> };
   categoryState: {
@@ -22,13 +23,18 @@ type StandProps = {
   };
 };
 
-export function Stands({ standState, categoryState, dialogState, computeStandSize }: StandProps) {
-  const { zoomToElement } = useControls();
+export function Stands({
+  fullViewMapState,
+  standState,
+  categoryState,
+  dialogState,
+  computeStandSize,
+}: StandProps) {
+  const { zoomToElement, resetTransform } = useControls();
   const dimensions = useWindowSize();
-
   const isMobile = useIsMobile();
 
-  return STANDS.map((stand) => {
+  return (fullViewMapState.isFullMapView ? MAP : STANDS).map((stand) => {
     const isCategorySelected = categoryState.activeCategory?.title === stand.category;
     const isStandSelected = standState.selectedStand?.id === stand.id;
 
@@ -43,13 +49,15 @@ export function Stands({ standState, categoryState, dialogState, computeStandSiz
           zoomToElement(stand.id, getZoomScale(dimensions.width));
         }}
       >
-        {(isCategorySelected || isStandSelected) && (
+        {(isCategorySelected || isStandSelected || fullViewMapState.isFullMapView) && (
           <Tooltip useTouch={isMobile}>
             <TooltipTrigger asChild>
-              <div className='zoom-in-95 bg-primary relative rounded-full p-1 text-white shadow-lg transition-all duration-200 ease-out hover:scale-110 hover:shadow-xl max-sm:p-0.5'>
+              <div
+                className={`zoom-in-95 ${fullViewMapState.isFullMapView ? 'bg-orange-500' : 'bg-primary'} relative rounded-full p-1 text-white shadow-lg transition-all duration-200 ease-out hover:scale-110 hover:shadow-xl max-sm:p-0.5`}
+              >
                 <MapPin className='z-50 size-2.5 transition-all duration-200 ease-out max-sm:size-1' />
                 <span
-                  className={`absolute inset-0 inline-flex h-full w-full animate-ping rounded-full ${isStandSelected ? 'bg-yellow-300' : 'bg-black'} opacity-75`}
+                  className={`absolute inset-0 inline-flex h-full w-full animate-ping rounded-full ${isStandSelected || fullViewMapState.isFullMapView ? 'bg-yellow-300' : 'bg-black'} opacity-75`}
                 />
               </div>
             </TooltipTrigger>
@@ -72,12 +80,20 @@ export function Stands({ standState, categoryState, dialogState, computeStandSiz
               <Button
                 className='bg-primary hover:bg-primary/90 z-50 cursor-pointer rounded-md px-3 py-1 text-xs font-semibold text-white transition-all'
                 variant='default'
-                onClick={() => {
+                onClick={(event) => {
+                  event.stopPropagation();
+
+                  if (fullViewMapState.isFullMapView) {
+                    fullViewMapState.setIsFullMapView(false);
+                    resetTransform(500, 'linear');
+                    return;
+                  }
+
                   standState.setSelectedStand(stand);
                   dialogState.setIsDialogActive(true);
                 }}
               >
-                Saiba mais
+                {fullViewMapState.isFullMapView ? 'Entrar no Pavilhão' : 'Saiba mais'}
               </Button>
             </TooltipContent>
           </Tooltip>

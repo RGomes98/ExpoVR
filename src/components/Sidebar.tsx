@@ -6,7 +6,7 @@ import { useState } from 'react';
 import type { Stand } from '@/constants/stands.const';
 import type { Category } from '@/constants/sidebar.const';
 import { CATEGORIES } from '@/constants/sidebar.const';
-import { STANDS } from '@/constants/stands.const';
+import { MAP, STANDS } from '@/constants/stands.const';
 import { useWindowSize } from '@/hooks/useWindowSize.hook';
 import { getLogoImagesPath } from '@/utils/file.util';
 import { getZoomScale } from '@/utils/window.util';
@@ -28,6 +28,7 @@ import {
 } from '@/components/ui/sidebar';
 
 type SidebarProps = ComponentProps<typeof SidebarUI> & {
+  isFullMapView: boolean;
   categoryState: {
     activeCategory: Category | null;
     setActiveCategory: Dispatch<SetStateAction<Category | null>>;
@@ -35,7 +36,7 @@ type SidebarProps = ComponentProps<typeof SidebarUI> & {
   standState: { selectedStand: Stand | null; setSelectedStand: Dispatch<SetStateAction<Stand | null>> };
 };
 
-export function Sidebar({ categoryState, standState, ...props }: SidebarProps) {
+export function Sidebar({ isFullMapView, categoryState, standState, ...props }: SidebarProps) {
   const [activeSearch, setActiveSearch] = useState('');
   const { zoomToElement, resetTransform } = useControls();
   const { setOpen, setOpenMobile } = useSidebar();
@@ -43,15 +44,17 @@ export function Sidebar({ categoryState, standState, ...props }: SidebarProps) {
   const dimensions = useWindowSize();
   const isMobile = useIsMobile();
 
-  const filteredStands = STANDS.filter((stand) => {
-    const hasActiveSearch = Boolean(activeSearch.trim());
-    if (!hasActiveSearch) return stand;
-    return stand.name.toLowerCase().includes(activeSearch.toLowerCase().trim());
-  }).filter((stand) => {
-    const activeCategory = categoryState.activeCategory;
-    if (!activeCategory) return stand;
-    return stand.category === activeCategory.title;
-  });
+  const filteredStands = (isFullMapView ? MAP : STANDS)
+    .filter((stand) => {
+      const hasActiveSearch = Boolean(activeSearch.trim());
+      if (!hasActiveSearch) return stand;
+      return stand.name.toLowerCase().includes(activeSearch.toLowerCase().trim());
+    })
+    .filter((stand) => {
+      const activeCategory = categoryState.activeCategory;
+      if (!activeCategory) return stand;
+      return stand.category === activeCategory.title;
+    });
 
   const hasStandsToShow = filteredStands.length > 0;
 
@@ -141,7 +144,7 @@ export function Sidebar({ categoryState, standState, ...props }: SidebarProps) {
                         <img
                           alt={stand.name}
                           src={getLogoImagesPath(stand.logoFilename)}
-                          className='my-auto h-12 w-12 shrink-0 object-contain'
+                          className={`my-auto shrink-0 object-contain ${isFullMapView ? 'size-16' : 'size-12'}`}
                         />
                       )}
                     </button>
