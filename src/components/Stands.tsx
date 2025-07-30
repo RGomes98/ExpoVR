@@ -67,7 +67,7 @@ export function Stands({
               tooltipColor='secondary'
               className='zoom-in-95 bg-secondary flex max-w-[220px] flex-col gap-2 rounded-md p-2 text-center shadow-md transition-all duration-150 ease-out sm:text-sm'
             >
-              <div className='flex h-10 items-center justify-center gap-2'>
+              <div className='flex min-h-10 items-center justify-center gap-2'>
                 {stand.logoFilename && (
                   <img
                     className='size-10 h-full rounded-md object-contain shadow'
@@ -75,7 +75,7 @@ export function Stands({
                     alt={stand.name}
                   />
                 )}
-                <span className='text-foreground px-2 text-base font-semibold'>{stand.name}</span>
+                <span className='text-foreground px-2 text-sm font-semibold'>{stand.name}</span>
               </div>
               <Button
                 className='bg-primary hover:bg-primary/90 z-50 cursor-pointer rounded-md px-3 py-1 text-xs font-semibold text-white transition-all'
